@@ -46,8 +46,6 @@ SERVO_LED_ERROR_WRITE = 35
 SERVO_LED_ERROR_READ = 36
 
 SENSOR_PRESSURE_READ = 37
-SENSOR_ID_READ = 38
-SENSOR_ID_WRITE = 39
 SENSOR_LED_RGB_WRITE = 40
 SENSOR_LED_MODE_WRITE = 41
 
@@ -328,15 +326,8 @@ class ServoController(object):
         response = self._query(servo_id, SENSOR_PRESSURE_READ, timeout=timeout)
         return word(response[2], response[3])
 
-    def get_sensor_id(self, servo_id, timeout=None):
-        response = self._query(servo_id, SENSOR_ID_READ, timeout=timeout)
-        return response[2]
-
-    def set_sensor_id(self, servo_id, new_servo_id):
-        self._command(servo_id, SENSOR_ID_WRITE, new_servo_id)
-
     def set_sensor_led_rgb(self, servo_id, led_r, led_g, led_b):
         self._command(servo_id, SENSOR_LED_RGB_WRITE, led_r, led_g, led_b)
 
     def set_sensor_led_mode(self, servo_id, led_mode):
-        self._command(servo_id, SENSOR_LED_MODE_WRITE, mode)
+        self._command(servo_id, SENSOR_LED_MODE_WRITE, led_mode)

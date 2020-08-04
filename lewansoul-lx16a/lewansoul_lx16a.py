@@ -45,6 +45,9 @@ SERVO_LED_CTRL_READ = 34
 SERVO_LED_ERROR_WRITE = 35
 SERVO_LED_ERROR_READ = 36
 
+SENSOR_PRESSURE_READ = 37
+SENSOR_LED_RGB_WRITE = 40
+SENSOR_LED_MODE_WRITE = 41
 
 SERVO_ERROR_OVER_TEMPERATURE = 1
 SERVO_ERROR_OVER_VOLTAGE = 2
@@ -318,3 +321,13 @@ class ServoController(object):
     def set_led_errors(self, servo_id, error):
         error = clamp(0, 7, error)
         self._command(servo_id, SERVO_LED_ERROR_WRITE, error)
+
+    def get_sensor_pressure(self, servo_id, timeout=None):
+        response = self._query(servo_id, SENSOR_PRESSURE_READ, timeout=timeout)
+        return word(response[2], response[3])
+
+    def set_sensor_led_rgb(self, servo_id, led_r, led_g, led_b):
+        self._command(servo_id, SENSOR_LED_RGB_WRITE, led_r, led_g, led_b)
+
+    def set_sensor_led_mode(self, servo_id, led_mode):
+        self._command(servo_id, SENSOR_LED_MODE_WRITE, led_mode)
